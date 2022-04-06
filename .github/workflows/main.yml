@@ -20,12 +20,14 @@ jobs:
           OS=$(uname -s | awk '{print tolower($0)}')
           ARCH=$(uname -m)
           SHA=${{ github.sha }}
-          echo release-${OS}-${ARCH}-${TAG}-${SHA} >> Release.txt
+          FILE=Release-${OS}-${ARCH}.txt
+          echo release-${OS}-${ARCH}-${TAG}-${SHA} >> ${FILE}
+          echo "FILE=${FILE}" >> $GITHUB_ENV
           
       - name: Test
-        run: cat Release.txt
+        run: cat ${{ env.FILE }}
         
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: Release.txt
+          files: ${{ env.FILE }}
