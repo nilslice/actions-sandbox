@@ -1,0 +1,14 @@
+name: sandbox
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: check tag
+        run: echo ${{ github.event.release.tag_name }}
