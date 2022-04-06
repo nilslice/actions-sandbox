@@ -14,9 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: check env
+      - name: Build
         run: |
           TAG=${{ github.event.release.tag_name }}
           OS=$(uname -s | awk '{print tolower($0)}')
           ARCH=$(uname -m)
-          echo release-${OS}-${ARCH}-${TAG}
+          SHA=${{ github.sha }}
+          echo release-${OS}-${ARCH}-${TAG}-${SHA} >> Release.txt
+          
+      - name: Test
+        run: cat Release.txt
+        
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: Release.txt
