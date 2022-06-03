@@ -1,6 +1,7 @@
 name: sandbox
 
 on:
+  push:
   release:
     types: [created]
 
@@ -13,6 +14,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Docker test
+        run: |
+          which docker && docker -h
+          which docker-compose && docker-compose -h
 
       - name: Build
         run: |
